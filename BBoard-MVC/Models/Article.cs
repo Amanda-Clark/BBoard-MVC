@@ -2,7 +2,7 @@
 {
     public class Article
     {
-        public Source source { get; set; }
+        public NewsSource source { get; set; }
         public string author { get; set; }
         public string title { get; set; }
         public string description { get; set; }

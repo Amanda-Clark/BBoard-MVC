@@ -9,6 +9,9 @@
         public Current current { get; set; }
         public List<Daily> daily { get; set; }
         public List<Alert> alerts { get; set; }
+        public string status { get; set; }
+        public int totalResults { get; set; }
+        public List<Article> articles { get; set; }
         public bool Empty { get { return (alerts == null); } }
     }
 }
