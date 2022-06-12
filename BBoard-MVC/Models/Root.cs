@@ -11,7 +11,10 @@
         public List<Alert> alerts { get; set; }
         public string status { get; set; }
         public int totalResults { get; set; }
+        public int numAlerts { get; set; }
+        public int numStories { get; set; }
         public List<Article> articles { get; set; }
+        public List<Article> covid_articles { get; set; }
         public bool Empty { get { return (alerts == null); } }
     }
 }

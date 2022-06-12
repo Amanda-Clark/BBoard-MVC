@@ -26,18 +26,29 @@ namespace BBoard_MVC.Controllers
 
             dynamic dynamicModel = new ExpandoObject();
             var rootClass = GetWeatherData().Result;
-            rootClass = GetHeadlineData().Result;
+            var newsStories = GetHeadlineData(rootClass).Result;
+            rootClass.articles = newsStories.articles;
+
             var covidStories = GetCovidData().Result;
-            dynamicModel.rootClass = rootClass;
-           // dynamicModel.usStoriesClass = usStoriesClass;
-            dynamicModel.covidStories = covidStories;
-            // var  usStoriesClass = GetHeadlineData().Result;
+            rootClass.numAlerts = rootClass.alerts.Count;
+            rootClass.numStories = rootClass.articles.Count;
+            rootClass.covid_articles = covidStories.articles;
+            if(rootClass.alerts.Count > 0)
+            {
+                foreach (var alert in rootClass.alerts)
+                {
+                    DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    DateTime startTime = origin.AddSeconds(alert.start);
+                    DateTime endTime = origin.AddSeconds(alert.end);
 
-            // var covidStories = GetCovidData().Result;
+                    alert.actualEndTime = endTime.ToString();
+                    alert.actualStartTime = startTime.ToString();
+                   
+                }
+            }
+          
 
-            //ViewBag.CurrentCondition = curCon;
-
-            return View(dynamicModel);
+            return View(rootClass);
         }
 
      
@@ -48,7 +59,30 @@ namespace BBoard_MVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public async Task<Root> FooBar()
+        {
+            using (var client = new HttpClient())
 
+            {
+                Root myDeserializedClass = null;
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+                var NewsKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("APIKeys")["News"];
+
+                string url = "https://newsapi.org/v2/top-headlines?country=us&pageSize=15&" +
+                            "apiKey=" + NewsKey;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JsonNode curHeadlines = JsonNode.Parse(responseBody);
+                myDeserializedClass = JsonConvert.DeserializeObject<Root>(responseBody);
+
+                return myDeserializedClass;
+
+            }
+
+        }
 
         public async Task<Root> GetWeatherData()
         {
@@ -67,7 +101,7 @@ namespace BBoard_MVC.Controllers
                 string responseBody = await response.Content.ReadAsStringAsync();
                 JsonNode curweather = JsonNode.Parse(responseBody);
                 myDeserializedClass = JsonConvert.DeserializeObject<Root>(responseBody);
-              
+               
                 return myDeserializedClass;
 
             }
@@ -76,7 +110,7 @@ namespace BBoard_MVC.Controllers
 
 
        
-        public async Task<Root> GetHeadlineData()
+        public async Task<Root> GetHeadlineData(Root rootClass)
         {
             using (var client = new HttpClient())
 
@@ -93,9 +127,9 @@ namespace BBoard_MVC.Controllers
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 JsonNode curHeadlines = JsonNode.Parse(responseBody);
-                myDeserializedClass = JsonConvert.DeserializeObject<Root>(responseBody);
+                rootClass = JsonConvert.DeserializeObject<Root>(responseBody);
 
-                return myDeserializedClass;
+                return rootClass;
 
             }
 

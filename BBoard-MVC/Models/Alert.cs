@@ -6,6 +6,8 @@
         public string @event { get; set; }
         public int start { get; set; }
         public int end { get; set; }
+        public string actualStartTime { get; set; }
+        public string actualEndTime { get; set; }
         public string description { get; set; }
         public List<string> tags { get; set; }
     }

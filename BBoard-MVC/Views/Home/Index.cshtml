@@ -1,5 +1,5 @@
-﻿
-@model BBoard_MVC.Models.Root
+﻿@model BBoard_MVC.Models.Root
+
 
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,9 @@
           <div id="firstrow"  style="width: 100%;height: 190px;background-color: maroon;color: white">
               <h1 class="weathertxt">Amanda Home Bulletin Board</h1>
                <p class="timetxt">Current Time: <span id="ct"></span></p>
+            
               <div style="display: flex; justify-content: space-between;">
+             
                <p class="hdrtxt";>Temperature: @Html.DisplayFor(model =>Model.current.temp) degrees </p>
                <p class="hdrtxt";>Feels Like: @Html.DisplayFor(model =>model.current.feels_like) degrees </p>
               </div>
@@ -22,8 +24,9 @@
                <p class="hdrtxt";>Barometric Pressure: @Html.DisplayFor(model =>model.current.pressure) hPa </p>
                <p class="hdrtxt";>Visibilty: @Html.DisplayFor(model =>model.current.visibility) km </p>
               </div>
+            
           </div>
-        <div id="toprow" class="scroll-left" style="width: 100%;height: 100px;background-color: black;color: white">
+       <div id="toprow" class="scroll-left" style="width: 100%;height: 100px;background-color: black;color: white">
             <p class="weathertxt";>Current Conditions: Temperature: @Html.DisplayFor(model =>model.current.temp) degrees
                Wind: @Html.DisplayFor(model =>model.current.wind_speed) mph from @Html.DisplayFor(model =>model.current.wind_deg) degrees Humidity: @Html.DisplayFor(model =>model.current.humidity)% Barometric Pressure:
               @Html.DisplayFor(model =>model.current.pressure) Dewpoint: @Html.DisplayFor(model =>model.current.dew_point) Cloud Cover:@Html.DisplayFor(model =>model.current.clouds)% UV Index: @Html.DisplayFor(model =>model.current.uvi)
@@ -40,36 +43,41 @@
                     Weather Alerts
                 </th>
             </tr>
-                        @if (!Model.Empty)
+                        @if (Model.alerts != null && Model.numAlerts <= 2)
                         {
-                            <tr>
-                                <td class="timetxt" style="text-align:left;">
-                                     @Html.DisplayFor(model =>model.alerts[0].sender_name)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="timetxt" style="text-align:left;">
-                                    @Html.DisplayFor(model =>model.alerts[0].description)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="timetxt" style="text-align:left;">
-                                    From:  @Html.DisplayFor(model =>model.alerts[0].start)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="timetxt" style="text-align:left;">
-                                    To:  @Html.DisplayFor(model =>model.alerts[0].end)
-                                </td>
-                            </tr>
-                            
+                            for(int i = 0; i<Model.numAlerts; i++)
+                            {
+                                <tr>
+                                    <td class="timetxt" style="text-align:left;">
+                                        @Html.DisplayFor(m => m.alerts[i].sender_name)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="timetxt" style="text-align:left;">
+                                       @Html.DisplayFor(m => m.alerts[i].description)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="timetxt" style="text-align:left;">
+                                        From:   @Html.DisplayFor(m => m.alerts[i].actualStartTime)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="timetxt" style="text-align:left;">
+                                        To:   @Html.DisplayFor(m => m.alerts[i].actualEndTime)
+                                    </td>
+                                </tr>
+                            }
+
                         }
-                        @if (Model.Empty){
+                        
+                        else 
+                        {
                                   <tr>
-                <th class="alerttxt">
-                    There are no weather alerts
-                </th>
-            </tr>
+                                  <th class="alerttxt">
+                                   There are no weather alerts
+                                  </th>
+                                   </tr>
                         }
 
     
@@ -78,15 +86,16 @@
   </div>
      <div class="column" style="background-color:darkorchid;">
       <p>Top Headlines</p>
-         {% for item in  news %}
+        @for(int i = 0; i<Model.numStories; i++)
+         {
       <div class="news">
-          <p style="color:yellow;font-family:teletext2;" >{{item.name}}</p>
-          <p style="color:yellow;font-family:teletext2;">{{item.title}}</p>
-          <p style="color:yellow;font-family:teletext2;">{{item.publishedat}}</p>
-          <h2 class="newstxt">{{item.description}}</h2>
-          <h2 class="newstxt">{{item.content}}</h2>
+          <p style="color:yellow;font-family:teletext2;" > @Html.DisplayFor(m => m.articles[i].author)</p>
+          <p style="color:yellow;font-family:teletext2;">@Html.DisplayFor(m => m.articles[i].title)</p>
+          <p style="color:yellow;font-family:teletext2;">@Html.DisplayFor(m => m.articles[i].publishedAt)</p>
+          <h2 class="newstxt">@Html.DisplayFor(m => m.articles[i].description)</h2>
+          <h2 class="newstxt">@Html.DisplayFor(m => m.articles[i].content)</h2>
       </div>
-         {% endfor  %}
+         }
 
      </div>
    <div class="column" style="background-color:darkorchid;">
