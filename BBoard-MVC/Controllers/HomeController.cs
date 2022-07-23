@@ -30,10 +30,27 @@ namespace BBoard_MVC.Controllers
             rootClass.articles = newsStories.articles;
 
             var covidStories = GetCovidData().Result;
-            rootClass.numAlerts = rootClass.alerts.Count;
+            if(rootClass.alerts != null)
+            {
+                rootClass.numAlerts = rootClass.alerts.Count;
+            }
+           
             rootClass.numStories = rootClass.articles.Count;
             rootClass.covid_articles = covidStories.articles;
-            if(rootClass.alerts.Count > 0)
+
+            for (var i = 0; i<5; i++)
+            {
+                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                DateTime forecastDate = origin.AddSeconds(rootClass.daily[i].dt);
+      
+
+                rootClass.daily[i].ForecastDate = forecastDate.ToString().Substring(0,9);
+              
+
+
+            }
+
+            if (rootClass.alerts != null)
             {
                 foreach (var alert in rootClass.alerts)
                 {

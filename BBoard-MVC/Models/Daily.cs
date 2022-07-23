@@ -22,5 +22,6 @@
         public double pop { get; set; }
         public double uvi { get; set; }
         public double? rain { get; set; }
+        public string ForecastDate { get; set; }
     }
 }

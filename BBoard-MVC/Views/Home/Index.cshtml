@@ -84,8 +84,9 @@
     
         </table>
   </div>
-     <div class="column" style="background-color:darkorchid;">
-      <p>Top Headlines</p>
+
+      <div class="column" style="background-color:darkorchid;">
+      <p class="timetxt2">Top Headlines</p>
         @for(int i = 0; i<Model.numStories; i++)
          {
       <div class="news">
@@ -99,17 +100,26 @@
 
      </div>
    <div class="column" style="background-color:darkorchid;">
+    <p class="timetxt2">3 Day Forecast</p>
+          <p class="newstxt" >Date:  @Html.DisplayFor(m => m.daily[0].ForecastDate)</p>
+          <p class="newstxt">High Temp @Html.DisplayFor(m => m.daily[0].temp.max)</p>
+          <p class="newstxt">Low Temp @Html.DisplayFor(m => m.daily[0].temp.min)</p>
+          <p class="newstxt">@Html.DisplayFor(m => m.daily[0].weather[0].description)</p>
 
-      <p>COVID News</p>
-       {% for item in  ornews %}
-       <div class="ornews">
-          <p style="color:yellow;font-family:teletext2;" >{{item.name}}</p>
-          <p style="color:yellow;font-family:teletext2;">{{item.title}}</p>
-          <p style="color:yellow;font-family:teletext2;">{{item.description}}</p>
-          <h2 class="newstxt"><{{item.description}}</h2>
-          <h2 class="newstxt">{{item.description}}</h2>
-      </div>
-       {% endfor %}
+          <p class="newstxt">Date:  @Html.DisplayFor(m => m.daily[1].ForecastDate)</p>
+          <p class="newstxt">High Temp @Html.DisplayFor(m => m.daily[1].temp.max)</p>
+          <p class="newstxt">Low Temp @Html.DisplayFor(m => m.daily[1].temp.min)</p>
+          <p class="newstxt">@Html.DisplayFor(m => m.daily[1].weather[0].description)</p>
+
+           <p class="newstxt">Date:  @Html.DisplayFor(m => m.daily[2].ForecastDate)</p>
+          <p class="newstxt">High Temp @Html.DisplayFor(m => m.daily[2].temp.max)</p>
+          <p class="newstxt">Low Temp @Html.DisplayFor(m => m.daily[2].temp.min)</p>
+          <p class="newstxt"> @Html.DisplayFor(m => m.daily[2].weather[0].description)</p>
+        
+      
+     
+   
+      
 
    </div>
 

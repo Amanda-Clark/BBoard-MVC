@@ -23,23 +23,30 @@ function currentSlide(n) {
 function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("news");
-    var slides2 = document.getElementsByClassName("ornews");
+   // var slides2 = document.getElementsByClassName("ornews");
 
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
+    if (n > slides.length)
+    {
+        slideIndex = 1
+    }
+    if (n < 1)
+    {
+        slideIndex = slides.length
+    }
+    for (i = 0; i < slides.length; i++)
+    {
         slides[i].style.display = "none";
     }
 
     slides[slideIndex - 1].style.display = "block";
 
-    if (n > slides2.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides2.length }
-    for (i = 0; i < slides2.length; i++) {
+   // if (n > slides2.length) { slideIndex = 1 }
+   // if (n < 1) { slideIndex = slides2.length }
+   /* for (i = 0; i < slides2.length; i++) {
         slides2[i].style.display = "none";
-    }
+    }*/
 
-    slides2[slideIndex - 1].style.display = "block";
+    //slides2[slideIndex - 1].style.display = "block";
 
 }
 function cyclenews() {

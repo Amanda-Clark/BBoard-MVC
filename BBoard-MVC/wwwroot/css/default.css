@@ -32,6 +32,14 @@
     text-align: center;
 }
 
+.timetxt2 {
+    font-family: "teletext2";
+    display: block;
+    font-size: 14px;
+    white-space: wrap;
+    text-align: center;
+}
+
 .newstxt {
     font-family: "teletext2";
     display: block;
